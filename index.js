@@ -15,8 +15,27 @@ const Tree = (arr) => {
     const root = Node(arr[mid], buildTree(arr.slice(0, mid)), buildTree(arr.slice(mid + 1)));
     return root;
   }
+
+  const insert = (num) => {
+    let current = root;
+    insertRec(num, current);
+  }
+
+  const insertRec = (num, current) => {
+    if (current == null) {
+      const node = Node(num);
+      current = node;
+      return node;
+    }
+    if (num < current.data) {
+      current = insertRec(num, current.left);
+    } else if (num > current.data) {
+      current = insertRec(num, current.right);
+    }
+  }
+
   const root = buildTree(arr);
-  return {root}
+  return {root, insert}
 }
 
 
