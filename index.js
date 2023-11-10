@@ -34,8 +34,45 @@ const Tree = (arr) => {
     }
   }
 
+  const findSucc = (current) => {
+    let temp = current.data;
+    while (current.left != null) {
+      temp = current.left.data;
+      current = current.left;
+    }
+    return temp
+  }
+
+  const deleteNode = (num, current = root) => {
+    if (current == null) return current;
+    if (current.data > num) {
+      current.left = deleteNode(num, current.left);
+    } else if (current.data < num) {
+      current.right = deleteNode(num, current.right);
+    } else {
+      if (current.left == null) {
+        return current.right;
+      } else if (current.right == null) {
+        return current.left;
+      } 
+      current.data = findSucc(current.right);
+      current.right = deleteNode(num, current.right);
+    }
+    return current;
+  }
+
+  const find = (num, current = root) => {
+    if (num === current.data) return current;
+    else if (num > current.data) {
+      current = find(num, current.right);
+    } else {
+      current = find(num, current.left);
+    }
+    return current;
+  }
+
   const root = buildTree(arr);
-  return {root, insert}
+  return {root, insert, deleteNode, find}
 }
 
 
